@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gcash_app_clone/core/common/app_color.dart';
 import 'package:gcash_app_clone/core/enums/login_enum.dart';
 import 'package:gcash_app_clone/core/providers/login_provider.dart';
-import 'package:gcash_app_clone/core/utils/dialogs.dart';
+import 'package:gcash_app_clone/core/services/auth_service.dart';
 import 'package:gcash_app_clone/core/utils/navigator_context.dart';
+import 'package:gcash_app_clone/data/mock_passcode.dart';
 import 'package:gcash_app_clone/ui/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -25,10 +26,19 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
   }
 
   void _onKeyboardTap(String value) {
-    if (input.length < 4) {
-      setState(() {
-        input.add(value);
-      });
+    if (value == 'fingerprint') {
+      biometricAuthDialog();
+    } else {
+      if (input.length < 4) {
+        setState(() {
+          input.add(value);
+
+          print(input.join());
+          if (input.join() == Passcode.pin) {
+            NavigatorContext.add(GCashHomeScreen.routeName);
+          }
+        });
+      }
     }
   }
 
@@ -40,7 +50,8 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
     }
   }
 
-  void biometricAuthDialog() {
+  void biometricAuthDialog() async {
+    /*
     Dialogs.show(
       context,
       title: 'Log in with biometrics',
@@ -58,7 +69,12 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
       ),
       okBtnFunction: () {},
       cancelText: "USE MPIN",
-    );
+    );*/
+
+    bool isAuthenticated = await AuthService.authenticateUser();
+    if (isAuthenticated) {
+      NavigatorContext.add(GCashHomeScreen.routeName);
+    }
   }
 
   Widget _buildCircle(bool filled) {
@@ -86,7 +102,8 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
           return true;
         },
         child: Scaffold(
-          backgroundColor: const Color(0xFF007AFF), // Background color similar to the image
+          backgroundColor:
+              const Color(0xFF007AFF), // Background color similar to the image
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +129,8 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
                 const SizedBox(height: 20),
                 // Phone number display
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
                     color: Colors.blue[800],
                     borderRadius: BorderRadius.circular(30),
@@ -133,9 +151,11 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
                           showModalBottomSheet(
                             context: context,
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25.0)),
                             ),
-                            builder: (context) => _buildQuickBalanceSheet(context),
+                            builder: (context) =>
+                                _buildQuickBalanceSheet(context),
                           );
                         },
                         child: const Icon(
@@ -161,7 +181,8 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
                   // MPIN input circles
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(4, (index) => _buildCircle(index < input.length)),
+                    children: List.generate(
+                        4, (index) => _buildCircle(index < input.length)),
                   ),
                   const SizedBox(height: 30),
                   // Warning text
@@ -188,17 +209,20 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
                           const SizedBox(height: 10),
                           // Help Center and Forgot MPIN
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 60.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
                                 Text(
                                   'Help Center',
-                                  style: TextStyle(color: AppColor.primaryDarkerColor),
+                                  style: TextStyle(
+                                      color: AppColor.primaryDarkerColor),
                                 ),
                                 Text(
                                   'Forgot MPIN?',
-                                  style: TextStyle(color: AppColor.primaryDarkerColor),
+                                  style: TextStyle(
+                                      color: AppColor.primaryDarkerColor),
                                 ),
                               ],
                             ),
@@ -214,7 +238,8 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
                   Padding(
                     padding: const EdgeInsets.all(50.0),
                     child: Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       elevation: 3,
                       child: SizedBox(
                         height: 100,
@@ -223,8 +248,9 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
                           children: [
                             Expanded(
                               child: InkWell(
-                                onTap: () {
-                                  provider.setSelectedType(LoginTypeEnum.BIOMETRIC);
+                                onTap: () async {
+                                  provider
+                                      .setSelectedType(LoginTypeEnum.BIOMETRIC);
                                   biometricAuthDialog();
                                 },
                                 child: Column(
@@ -338,13 +364,18 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
   Widget _buildKeypadButton(String value) {
     Widget content;
     if (value == 'fingerprint') {
-      content = const Icon(Icons.fingerprint, size: 30, color: AppColor.primaryDarkerColor);
+      content = const Icon(Icons.fingerprint,
+          size: 30, color: AppColor.primaryDarkerColor);
     } else if (value == 'delete') {
-      content = const Icon(Icons.backspace_outlined, size: 30, color: AppColor.primaryDarkerColor);
+      content = const Icon(Icons.backspace_outlined,
+          size: 30, color: AppColor.primaryDarkerColor);
     } else {
       content = Text(
         value,
-        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: AppColor.primaryDarkerColor),
+        style: const TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: AppColor.primaryDarkerColor),
       );
     }
     return InkWell(
@@ -360,7 +391,7 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
 
   Widget _buildMPINSectionWidget() {
     return Column(
-      children: [],
+      children: const [],
     );
   }
 
@@ -372,9 +403,10 @@ class _GCashLoginScreenState extends State<GCashLoginScreen> {
         Padding(
           padding: const EdgeInsets.all(50.0),
           child: Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             elevation: 3,
-            child: Container(
+            child: SizedBox(
               height: 100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

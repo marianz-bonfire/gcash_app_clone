@@ -25,7 +25,7 @@ class HomeAppBar extends StatelessWidget  {
           color: Colors.orange,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Text('One'),
               Text('Two'),
               Text('Three'),

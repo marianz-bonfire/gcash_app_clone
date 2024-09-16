@@ -28,77 +28,91 @@ class InboxMessageScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            elevation: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16.0),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 24,
+              left: 0,
+              right: 0,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
-                        backgroundColor: AppColor.primaryColor,
-                        radius: 24,
-                        child: Icon(
-                          Icons.email,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'March 15, 2024 10:18 AM',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'March 15, 2024 10:18 AM',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Online Payment Successful!',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.primaryColor,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Online Payment Successful!',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.primaryColor,
-                            ),
+                          const Spacer(),
+                          IconButton(
+                            icon: const Icon(Icons.share, color: AppColor.primaryColor),
+                            onPressed: () {
+                              // Handle share action
+                            },
                           ),
                         ],
                       ),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(Icons.share, color: AppColor.primaryColor),
-                        onPressed: () {
-                          // Handle share action
-                        },
+                      const SizedBox(height: 16),
+                      const Divider(),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Your payment of ₱49.00 to Apple services has been successfully processed on '
+                        '03-15-24 10:18:04 AM. Ref. No. 323149535',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  const Divider(),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Your payment of ₱49.00 to Apple services has been successfully processed on '
-                    '03-15-24 10:18:04 AM. Ref. No. 323149535',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+            const Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: CircleAvatar(
+                  backgroundColor: AppColor.primaryColor,
+                  radius: 24,
+                  child: Icon(
+                    Icons.email,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

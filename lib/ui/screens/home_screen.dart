@@ -10,7 +10,6 @@ import 'package:gcash_app_clone/ui/screens/home/profile_content.dart';
 import 'package:gcash_app_clone/ui/screens/home/qr_content.dart';
 import 'package:gcash_app_clone/ui/screens/home/transactions_content.dart';
 import 'package:gcash_app_clone/ui/widgets/bottom_navbar.dart';
-import 'package:gcash_app_clone/ui/widgets/home_appbar.dart';
 import 'package:provider/provider.dart';
 
 class GCashHomeScreen extends StatefulWidget {
@@ -174,8 +173,7 @@ class _GCashHomeScreenState extends State<GCashHomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          primary: AppColor.primaryColor,
-                          onPrimary: Colors.blue,
+                          foregroundColor: Colors.blue, backgroundColor: AppColor.primaryColor,
                           side: BorderSide(color: Colors.white),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -192,8 +190,7 @@ class _GCashHomeScreenState extends State<GCashHomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.blue,
+                          foregroundColor: Colors.blue, backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),

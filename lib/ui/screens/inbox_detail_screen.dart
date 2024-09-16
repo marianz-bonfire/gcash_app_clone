@@ -1,9 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:gcash_app_clone/core/common/app_color.dart';
 import 'package:gcash_app_clone/core/utils/navigator_context.dart';
 import 'package:gcash_app_clone/data/mock_data.dart';
 import 'package:gcash_app_clone/ui/widgets/dash_separator.dart';
-import 'package:provider/provider.dart';
 
 class InboxDetailScreen extends StatefulWidget {
   static const String routeName = 'InboxDetailScreen';

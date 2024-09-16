@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gcash_app_clone/core/common/app_color.dart';
 import 'package:gcash_app_clone/ui/widgets/profile_item.dart';
 
 class ProfileContent extends StatelessWidget {
